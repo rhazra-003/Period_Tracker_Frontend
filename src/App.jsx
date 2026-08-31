@@ -189,7 +189,7 @@ function MainContent() {
             fontSize: { xs: '0.75rem', sm: '0.875rem' }
           }}
         >
-          Made with ❤️ by Ridam - Copyright 2025
+          Made with ❤️ by Ridam - Copyright 2025-26
         </Typography>
       </Box>
     </Box>
