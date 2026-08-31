@@ -29,6 +29,10 @@ export default function PeriodForm({ onTracked }) {
       if (onTracked) {
         onTracked();
       }
+      setTimeout(() => {
+        setSuccess("");
+      }, 1800);
+      setDate(dayjs());
     } catch (err) {
       setError(err.response?.data?.error || "Error tracking cycle");
     } finally {

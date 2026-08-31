@@ -23,7 +23,7 @@ export default function CycleChart({ refreshKey = 0 }) {
   useEffect(() => {
     api.get(`/cycles/recent`, { params: { page: 0, size: 10 } })
       .then(res => {
-        const labels = res.data.map(r => dayjs(r.periodStart).format('DD/MM/YYYY')).reverse();
+        const labels = res.data.map(r => dayjs(r.periodStart).format('DD/MM')).reverse();
         const values = res.data.map(r => r.cycleLength ?? null).reverse();
 
         const filteredData = labels.map((label, index) => ({
@@ -128,15 +128,17 @@ export default function CycleChart({ refreshKey = 0 }) {
                   }
                 }, 
                 beginAtZero: false,
-                min: 20,
-                grid: {
-                  color: 'rgba(255, 105, 180, 0.1)',
-                },
+                min: 24,
+                max: 32,
                 ticks: {
+                  stepSize: 2,
                   color: '#C71585',
                   font: {
                     size: window.innerWidth < 600 ? 10 : 12
                   }
+                },
+                grid: {
+                  color: 'rgba(255, 105, 180, 0.1)',
                 }
               },
               x: { 
@@ -154,7 +156,9 @@ export default function CycleChart({ refreshKey = 0 }) {
                 },
                 ticks: {
                   color: '#C71585',
-                  maxRotation: 45,
+                  maxRotation: 0,
+                  autoSkip: false,
+                  maxTicksLimit: 10,
                   font: {
                     size: window.innerWidth < 600 ? 9 : 11
                   }
