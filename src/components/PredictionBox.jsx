@@ -3,19 +3,18 @@ import api from "../api/axios";
 import { Box, Typography, Paper } from "@mui/material";
 import dayjs from "dayjs";
 
-export default function PredictionBox() {
+export default function PredictionBox({ refreshKey = 0 }) {
   const [prediction, setPrediction] = useState("");
   const [error, setError] = useState("");
 
   useEffect(() => {
     api.get(`/cycles/predict`)
       .then(res => {
-        // Format the prediction date to DD/MM/YYYY
         const formattedDate = dayjs(res.data.nextPeriod).format('DD/MM/YYYY');
         setPrediction(formattedDate);
       })
       .catch(err => setError(err.response?.data?.error || "No prediction available"));
-  }, []);
+  }, [refreshKey]);
 
   return (
     <Box sx={{ 

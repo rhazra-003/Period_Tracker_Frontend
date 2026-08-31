@@ -6,7 +6,7 @@ import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import dayjs from "dayjs";
 
-export default function PeriodForm() {
+export default function PeriodForm({ onTracked }) {
   const [date, setDate] = useState(dayjs());
   const [duration, setDuration] = useState(5);
   const [loading, setLoading] = useState(false);
@@ -26,6 +26,9 @@ export default function PeriodForm() {
         },
       });
       setSuccess("Cycle tracked!");
+      if (onTracked) {
+        onTracked();
+      }
     } catch (err) {
       setError(err.response?.data?.error || "Error tracking cycle");
     } finally {

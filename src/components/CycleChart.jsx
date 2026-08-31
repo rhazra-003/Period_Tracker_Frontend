@@ -16,26 +16,24 @@ import dayjs from "dayjs";
 
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-export default function CycleChart() {
+export default function CycleChart({ refreshKey = 0 }) {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
 
   useEffect(() => {
     api.get(`/cycles/recent`, { params: { page: 0, size: 10 } })
       .then(res => {
-        // Format dates to DD/MM/YYYY and reverse for chronological order
         const labels = res.data.map(r => dayjs(r.periodStart).format('DD/MM/YYYY')).reverse();
         const values = res.data.map(r => r.cycleLength ?? null).reverse();
-        
-        // Filter out null values and their corresponding labels
+
         const filteredData = labels.map((label, index) => ({
           label,
           value: values[index]
         })).filter(item => item.value !== null);
-        
+
         const chartLabels = filteredData.map(item => item.label);
         const chartValues = filteredData.map(item => item.value);
-        
+
         setData({
           labels: chartLabels,
           datasets: [
@@ -54,7 +52,7 @@ export default function CycleChart() {
         });
       })
       .catch(err => setError("Error loading chart"));
-  }, []);
+  }, [refreshKey]);
 
   if (error) return (
     <Typography 

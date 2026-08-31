@@ -3,7 +3,7 @@ import api from "../api/axios";
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Typography, Pagination, Box } from "@mui/material";
 import dayjs from "dayjs";
 
-export default function HistoryList() {
+export default function HistoryList({ refreshKey = 0 }) {
   const [records, setRecords] = useState([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -16,7 +16,7 @@ export default function HistoryList() {
         params: { page: pageNum - 1, size: 10 },
       });
       setRecords(res.data);
-      setTotalPages(res.data.length === 10 ? pageNum + 1 : pageNum); // crude estimate
+      setTotalPages(res.data.length === 10 ? pageNum + 1 : pageNum);
     } catch (err) {
       setError(err.response?.data?.error || "Error fetching history");
       setRecords([]);
@@ -26,7 +26,7 @@ export default function HistoryList() {
   useEffect(() => {
     fetchRecords(page);
     // eslint-disable-next-line
-  }, [page]);
+  }, [page, refreshKey]);
 
   // Format date to DD/MM/YYYY
   const formatDate = (dateString) => {

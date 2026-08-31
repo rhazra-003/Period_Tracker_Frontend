@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { AuthProvider, useAuth } from "./components/AuthProvider";
 import LoginButton from "./components/LoginButton";
 import PeriodForm from "./components/PeriodForm";
@@ -63,8 +63,13 @@ const theme = createTheme({
 
 function MainContent() {
   const { user, logout } = useAuth();
+  const [refreshKey, setRefreshKey] = useState(0);
 
   if (!user) return <LoginButton />;
+
+  const handleCycleTracked = () => {
+    setRefreshKey((prev) => prev + 1);
+  };
 
   // Extract first name from display name
   const firstName = user.displayName ? user.displayName.split(' ')[0] : 'User';
@@ -146,7 +151,7 @@ function MainContent() {
         </Box>
 
         {/* Form Section */}
-        <PeriodForm />
+        <PeriodForm onTracked={handleCycleTracked} />
 
         {/* History and Chart Section - Side by Side */}
         <Box sx={{ 
@@ -156,13 +161,13 @@ function MainContent() {
           mt: { xs: 4, sm: 6 },
           alignItems: 'start'
         }}>
-          <HistoryList />
-          <CycleChart />
+          <HistoryList refreshKey={refreshKey} />
+          <CycleChart refreshKey={refreshKey} />
         </Box>
 
         {/* Prediction Box */}
         <Box sx={{ mt: { xs: 3, sm: 4 } }}>
-          <PredictionBox />
+          <PredictionBox refreshKey={refreshKey} />
         </Box>
       </Container>
 
