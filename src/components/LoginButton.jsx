@@ -1,5 +1,5 @@
 import React from "react";
-import { auth, provider } from "../firebase";
+import { auth, provider } from "../firebase.js";
 import { signInWithPopup } from "firebase/auth";
 import Button from "@mui/material/Button";
 import GoogleIcon from "@mui/icons-material/Google";
