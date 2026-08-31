@@ -2,7 +2,7 @@ import axios from "axios";
 import { auth } from "../firebase";
 
 const api = axios.create({
-  baseURL: "http://localhost:8081/api",
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:8081/api",
 });
 
 api.interceptors.request.use(async (config) => {
@@ -14,4 +14,4 @@ api.interceptors.request.use(async (config) => {
   return config;
 });
 
-export default api; 
+export default api;
