@@ -67,7 +67,7 @@ function MainContent() {
 
   if (!user) return <LoginButton />;
 
-  const handleCycleTracked = () => {
+  const handleDataUpdated = () => {
     setRefreshKey((prev) => prev + 1);
   };
 
@@ -151,7 +151,7 @@ function MainContent() {
         </Box>
 
         {/* Form Section */}
-        <PeriodForm onTracked={handleCycleTracked} />
+        <PeriodForm onTracked={handleDataUpdated} />
 
         {/* History and Chart Section - Side by Side */}
         <Box sx={{ 
@@ -161,7 +161,7 @@ function MainContent() {
           mt: { xs: 4, sm: 6 },
           alignItems: 'start'
         }}>
-          <HistoryList refreshKey={refreshKey} />
+          <HistoryList refreshKey={refreshKey} onDataUpdated={handleDataUpdated} />
           <CycleChart refreshKey={refreshKey} />
         </Box>
 
