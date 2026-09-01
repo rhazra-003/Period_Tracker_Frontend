@@ -76,22 +76,31 @@ export default function CycleChart({ refreshKey = 0 }) {
         variant="h6" 
         align="center" 
         sx={{ 
-          color: '#C71585',
-          fontWeight: 600,
+          color: '#A21CAF',
+          fontWeight: 700,
           mb: { xs: 2, sm: 3 },
-          fontSize: { xs: '1.1rem', sm: '1.25rem' }
+          fontSize: { xs: '1.1rem', sm: '1.25rem' },
+          letterSpacing: '-0.02em',
         }}
       >
         Cycle Chart
       </Typography>
       <Box 
         sx={{ 
-          backgroundColor: '#FFFFFF',
-          borderRadius: 3,
+          background: 'rgba(255,255,255,0.72)',
+          borderRadius: 4,
           p: { xs: 1, sm: 2 },
-          boxShadow: '0 4px 20px rgba(255, 105, 180, 0.1)',
+          boxShadow: '0 20px 45px rgba(168, 85, 247, 0.12)',
+          border: '1px solid rgba(255,255,255,0.8)',
+          backdropFilter: 'blur(16px)',
+          WebkitBackdropFilter: 'blur(16px)',
           height: { xs: '250px', sm: '300px', md: '350px' },
-          overflow: 'hidden'
+          overflow: 'hidden',
+          transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+          '&:hover': {
+            boxShadow: '0 24px 60px rgba(168, 85, 247, 0.16)',
+            transform: 'translateY(-2px)'
+          }
         }}
       >
         <Line 

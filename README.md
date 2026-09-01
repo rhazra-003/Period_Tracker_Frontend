@@ -9,6 +9,8 @@ React + Vite frontend for the period tracker. It provides Google sign-in, period
 - View recent cycle history in a table
 - Cycle chart with recent trend data
 - Next period prediction panel
+- Estimated ovulation date prediction
+- Fertile window prediction range
 - Delete tracked entry with confirmation popup
 - Mobile-first responsive interface
 
@@ -28,7 +30,7 @@ React + Vite frontend for the period tracker. It provides Google sign-in, period
 - `src/components/PeriodForm.jsx` — tracking form
 - `src/components/HistoryList.jsx` — history table and delete dialog
 - `src/components/CycleChart.jsx` — chart widget
-- `src/components/PredictionBox.jsx` — next prediction panel
+- `src/components/PredictionBox.jsx` — prediction panel showing next period, ovulation, and fertile window
 - `src/api/axios.js` — API client with Firebase bearer token injection
 - `src/firebase.js` — Firebase browser config and auth initialization
 
@@ -83,6 +85,8 @@ The current frontend includes:
 - chart labels formatted as `DD/MM`
 - delete icon in each cycle row with confirmation modal
 - post-delete and post-track automatic refresh of history, chart, and prediction components
+- prediction panel showing next expected period, estimated ovulation date, and fertile window range
+- premium glass-style visual polish across cards, tables, and dashboard sections
 
 ## Deployment guidance
 For free-tier deployment:
