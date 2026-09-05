@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import api from "../api/axios";
-import { Box, Typography, Paper } from "@mui/material";
+import { Box, Typography, Paper, useTheme } from "@mui/material";
 import dayjs from "dayjs";
 
 export default function PredictionBox({ refreshKey = 0 }) {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === 'dark';
   const [prediction, setPrediction] = useState({
     nextPeriod: "",
     ovulationDate: "",
@@ -44,19 +46,19 @@ export default function PredictionBox({ refreshKey = 0 }) {
         sx={{ 
           p: { xs: 1.5, sm: 2 }, 
           textAlign: "center",
-          backgroundColor: '#FFFFFF',
+          background: isDark ? 'rgba(31,25,52,0.82)' : 'rgba(255,255,255,0.7)',
           borderRadius: 3,
           boxShadow: '0 4px 20px rgba(255, 105, 180, 0.1)',
-          border: '2px solid #FFB6C1',
-          width: { xs: '92%', sm: '72%', md: '52%', lg: '36%' },
-          minWidth: { xs: '220px', sm: '280px' },
-          maxWidth: { xs: '360px', sm: '440px' }
+          border: '1px solid rgba(255,255,255,0.8)',
+          width: { xs: '96%', sm: '88%', md: '74%', lg: '62%' },
+          minWidth: { xs: '240px', sm: '320px' },
+          maxWidth: { xs: '420px', sm: '620px' }
         }}
       >
         <Typography 
           variant="h6" 
           sx={{ 
-            color: '#C71585',
+            color: isDark ? '#F8F7FF' : '#312E81',
             fontWeight: 600,
             mb: { xs: 0.75, sm: 1.25 },
             fontSize: { xs: '0.9rem', sm: '1rem' }
@@ -80,10 +82,10 @@ export default function PredictionBox({ refreshKey = 0 }) {
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, alignItems: 'center' }}>
             {predictionItems.map((item) => (
               <Box key={item.label} sx={{ width: '100%', textAlign: 'center', borderBottom: '1px solid rgba(255, 105, 180, 0.2)', pb: 1 }}>
-                <Typography sx={{ color: '#C71585', fontWeight: 600, fontSize: '0.78rem', mb: 0.25 }}>
+                <Typography sx={{ color: isDark ? '#C4B5FD' : '#7C3AED', fontWeight: 700, fontSize: '0.78rem', mb: 0.25 }}>
                   {item.label}
                 </Typography>
-                <Typography sx={{ color: '#FF69B4', fontWeight: 700, fontSize: { xs: '0.9rem', sm: '1.05rem' } }}>
+                <Typography sx={{ color: isDark ? '#FDA4AF' : '#E11D48', fontWeight: 800, fontSize: { xs: '0.9rem', sm: '1.05rem' } }}>
                   {item.value || "—"}
                 </Typography>
               </Box>

@@ -1,20 +1,29 @@
-# Period Tracker Frontend
+# LunaFlow Frontend
 
-React + Vite frontend for the period tracker. It provides Google sign-in, period tracking, cycle history, trend visualization, prediction, and entry deletion.
+React + Vite frontend for LunaFlow, a cycle-care app for tracking periods, understanding cycle patterns, and planning ahead with clear, non-diagnostic estimates.
 
 ## Features
+- Informative LunaFlow landing/login page with feature highlights, first-use guidance, prediction expectations, and menstrual-health awareness notes
 - Google Sign-In via Firebase Auth
 - Track period start date and duration
+- Success and error feedback for tracking actions
+- Automatic reset of the date picker after a successful entry
 - Auto-refresh after successful track/delete actions
-- View recent cycle history in a table
-- Cycle chart with recent trend data, activated after 3 period records
-- Next expected period prediction panel
+- View recent cycle history in a responsive table
+- Delete tracked entries with a confirmation dialog and ownership-protected backend request
+- Cycle chart with recent trend data, activated after at least 3 period records
+- Next expected period prediction
 - Estimated ovulation date prediction
 - Fertile window prediction range
 - Future month/year cycle phase forecast
 - Monthly menstruation, follicular, ovulation, and luteal phase ranges
-- Delete tracked entry with confirmation popup
-- Mobile-first responsive interface
+- Minimum-data guidance when fewer than 3 period dates are available
+- No-data dashboard state that keeps only the Track Your Period section visible
+- Responsive mobile-first layout for dashboard, tables, charts, forms, and forecast cards
+- Vibrant LunaFlow visual identity with glass-style surfaces, gradients, hover states, and expressive typography
+- Light and dark themes with dark mode as the first-visit default
+- Theme toggle available on both the landing page and authenticated dashboard
+- Theme preference persisted in `localStorage` across login and dashboard views
 
 ## Tech Stack
 - React 18
@@ -26,14 +35,15 @@ React + Vite frontend for the period tracker. It provides Google sign-in, period
 - Day.js
 
 ## Project files
-- `src/App.jsx` — app shell and main dashboard layout
+- `src/App.jsx` — app shell, theme system, branding, dashboard layout, and section visibility rules
 - `src/components/AuthProvider.jsx` — Firebase auth provider
-- `src/components/LoginButton.jsx` — Google sign-in UI
+- `src/components/LoginButton.jsx` — informative landing page, Google sign-in UI, and login theme toggle
 - `src/components/PeriodForm.jsx` — tracking form
-- `src/components/HistoryList.jsx` — history table and delete dialog
-- `src/components/CycleChart.jsx` — chart widget
+- `src/components/HistoryList.jsx` — responsive history table and delete dialog
+- `src/components/CycleChart.jsx` — cycle trend chart and three-record lock state
 - `src/components/PredictionBox.jsx` — prediction panel showing next period, ovulation, and fertile window
-- `src/components/FutureCyclePrediction.jsx` — month picker and future phase forecast
+- `src/components/FutureCyclePrediction.jsx` — month/year picker and future phase forecast
+- `index.html` — browser metadata, theme color, and LunaFlow font loading
 - `src/api/axios.js` — API client with Firebase bearer token injection
 - `src/firebase.js` — Firebase browser config and auth initialization
 
@@ -81,6 +91,8 @@ The app calls these backend endpoints:
 - `GET /api/cycles/predict/month?month=YYYY-MM`
 - `DELETE /api/cycles/{id}`
 
+The monthly forecast request uses the selected month in `YYYY-MM` format. Prediction and chart requests use the authenticated Firebase bearer token automatically added by the Axios interceptor.
+
 ## Latest app behavior
 The current frontend includes:
 - success banner after a cycle is tracked
@@ -96,6 +108,9 @@ The current frontend includes:
 - premium glass-style visual polish across cards, tables, and dashboard sections
 - future monthly forecast showing menstruation, follicular, ovulation, and luteal phases
 - forecast disclaimer: `Subject to normal physical and mental health.`
+- landing page presents LunaFlow features, setup guidance, estimate limitations, and menstrual-health safety information before sign-in
+- dark mode is selected by default when no theme preference exists
+- switching themes on either landing or dashboard persists the choice for future visits
 
 ## Prediction behavior
 - Current predictions use the average cycle length from recent recorded period dates.
@@ -103,6 +118,19 @@ The current frontend includes:
 - The month/year picker requests a forecast in `YYYY-MM` format and displays only phase ranges overlapping the selected month.
 - Predictions and the cycle chart require at least 3 recorded period dates.
 - The interface displays `Record at least the last 3 period dates to unlock predictions.` when prediction data is unavailable because the minimum has not been reached.
+
+## User flow
+1. Open LunaFlow and review the feature and health-awareness information on the landing page.
+2. Sign in with Google.
+3. Record the first day of the latest period and its duration.
+4. Continue recording period dates to unlock history insights, the cycle chart, and predictions.
+5. After at least 3 period records, view current estimates and select a future month to explore expected cycle phases.
+
+## Health and privacy notes
+- Predictions are estimates based on recorded cycle history and are not medical advice.
+- Cycle timing can vary with stress, illness, medication, and other physical or mental health changes.
+- Users are advised to seek qualified medical support for severe pain, unusually heavy bleeding, sudden major changes, or persistent concerns.
+- Firebase authentication protects access to the user experience, while the frontend never stores backend secrets.
 
 ## Deployment guidance
 For free-tier deployment:

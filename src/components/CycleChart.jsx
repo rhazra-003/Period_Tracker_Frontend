@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import api from "../api/axios";
 import { Line } from "react-chartjs-2";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, useTheme } from "@mui/material";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -17,6 +17,8 @@ import dayjs from "dayjs";
 ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 export default function CycleChart({ refreshKey = 0 }) {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === 'dark';
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
   const [isLocked, setIsLocked] = useState(false);
@@ -49,11 +51,11 @@ export default function CycleChart({ refreshKey = 0 }) {
             {
               label: "Cycle Length (days)",
               data: chartValues,
-              borderColor: "#FF69B4",
-              backgroundColor: "rgba(255, 105, 180, 0.2)",
+              borderColor: "#F43F5E",
+              backgroundColor: "rgba(244, 63, 94, 0.18)",
               tension: 0.3,
-              pointBackgroundColor: "#C71585",
-              pointBorderColor: "#C71585",
+              pointBackgroundColor: "#7C3AED",
+              pointBorderColor: "#7C3AED",
               pointRadius: 6,
               pointHoverRadius: 8,
             },
@@ -68,7 +70,7 @@ export default function CycleChart({ refreshKey = 0 }) {
       variant="h6" 
       align="center" 
       sx={{ 
-        color: '#A21CAF',
+        color: isDark ? '#F8F7FF' : '#312E81',
         fontWeight: 700,
         mb: { xs: 2, sm: 3 },
         fontSize: { xs: '1.1rem', sm: '1.25rem' },
@@ -85,7 +87,7 @@ export default function CycleChart({ refreshKey = 0 }) {
       <Typography
         sx={{
           textAlign: 'center',
-          color: '#A21CAF',
+          color: isDark ? '#F8F7FF' : '#312E81',
           backgroundColor: 'rgba(255,255,255,0.62)',
           border: '1px solid rgba(255,255,255,0.8)',
           backdropFilter: 'blur(12px)',
@@ -121,18 +123,18 @@ export default function CycleChart({ refreshKey = 0 }) {
       {chartHeading}
       <Box 
         sx={{ 
-          background: 'rgba(255,255,255,0.72)',
+          background: isDark ? 'rgba(31,25,52,0.82)' : 'rgba(255,255,255,0.72)',
           borderRadius: 4,
           p: { xs: 1, sm: 2 },
-          boxShadow: '0 20px 45px rgba(168, 85, 247, 0.12)',
+          boxShadow: '0 20px 45px rgba(190, 24, 93, 0.13)',
           border: '1px solid rgba(255,255,255,0.8)',
           backdropFilter: 'blur(16px)',
           WebkitBackdropFilter: 'blur(16px)',
-          height: { xs: '250px', sm: '300px', md: '350px' },
+          height: { xs: '220px', sm: '260px', md: '290px' },
           overflow: 'hidden',
           transition: 'transform 0.2s ease, box-shadow 0.2s ease',
           '&:hover': {
-            boxShadow: '0 24px 60px rgba(168, 85, 247, 0.16)',
+            boxShadow: '0 24px 60px rgba(190, 24, 93, 0.18)',
             transform: 'translateY(-2px)'
           }
         }}

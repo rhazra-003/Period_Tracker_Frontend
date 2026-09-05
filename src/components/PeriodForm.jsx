@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import api from "../api/axios";
-import { TextField, Button, Box, Typography, InputAdornment, IconButton, Grid } from "@mui/material";
+import { TextField, Button, Box, Typography, InputAdornment, IconButton } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
@@ -96,7 +96,7 @@ export default function PeriodForm({ onTracked }) {
                   <IconButton 
                     onClick={() => setDuration(d => Math.max(1, d - 1))}
                     sx={{ 
-                      color: '#C71585',
+                      color: '#BE123C',
                       padding: { xs: '4px', sm: '8px' }
                     }}
                     size="small"
@@ -110,7 +110,7 @@ export default function PeriodForm({ onTracked }) {
                   <IconButton 
                     onClick={() => setDuration(d => d + 1)}
                     sx={{ 
-                      color: '#C71585',
+                      color: '#BE123C',
                       padding: { xs: '4px', sm: '8px' }
                     }}
                     size="small"
@@ -142,10 +142,10 @@ export default function PeriodForm({ onTracked }) {
           sx={{ 
             px: { xs: 6, sm: 8 },
             py: { xs: 1, sm: 1.5 },
-            backgroundColor: '#FF69B4',
+            background: 'linear-gradient(135deg, #F43F5E 0%, #FB7185 52%, #F97316 100%)',
             fontSize: { xs: '0.9rem', sm: '1rem' },
             '&:hover': {
-              backgroundColor: '#C71585',
+              background: 'linear-gradient(135deg, #E11D48 0%, #F43F5E 55%, #EA580C 100%)',
             }
           }}
           disabled={loading}

@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
 import api from "../api/axios";
-import { Box, Typography, Paper, Alert } from "@mui/material";
+import { Box, Typography, Paper, Alert, useTheme } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers/DatePicker";
 import dayjs from "dayjs";
 
 const phaseColors = {
   Menstruation: { background: "rgba(244, 63, 94, 0.12)", color: "#BE123C" },
-  "Follicular Phase": { background: "rgba(251, 191, 36, 0.16)", color: "#A16207" },
+  "Follicular Phase": { background: "rgba(249, 115, 22, 0.16)", color: "#C2410C" },
   Ovulation: { background: "rgba(236, 72, 153, 0.14)", color: "#BE185D" },
   "Luteal Phase": { background: "rgba(139, 92, 246, 0.14)", color: "#6D28D9" },
 };
 
 export default function FutureCyclePrediction({ refreshKey = 0 }) {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === 'dark';
   const [month, setMonth] = useState(dayjs().add(1, "month"));
   const [forecast, setForecast] = useState(null);
   const [error, setError] = useState("");
@@ -33,7 +35,7 @@ export default function FutureCyclePrediction({ refreshKey = 0 }) {
         variant="h6"
         align="center"
         sx={{
-          color: "#A21CAF",
+          color: isDark ? "#F8F7FF" : "#312E81",
           fontWeight: 700,
           mb: 1,
           fontSize: { xs: "1.1rem", sm: "1.3rem" },
@@ -44,7 +46,7 @@ export default function FutureCyclePrediction({ refreshKey = 0 }) {
       </Typography>
       <Typography
         align="center"
-        sx={{ color: "#6D28D9", mb: { xs: 2, sm: 3 }, fontSize: { xs: "0.8rem", sm: "0.9rem" } }}
+        sx={{ color: isDark ? "#C4B5FD" : "#7C3AED", mb: { xs: 2, sm: 3 }, fontSize: { xs: "0.8rem", sm: "0.9rem" } }}
       >
         Plan ahead by exploring your expected cycle phases.
       </Typography>
@@ -53,9 +55,9 @@ export default function FutureCyclePrediction({ refreshKey = 0 }) {
         sx={{
           mx: "auto",
           p: { xs: 2, sm: 3 },
-          width: { xs: "92%", sm: "80%", md: "62%" },
-          maxWidth: 640,
-          background: "rgba(255,255,255,0.72)",
+          width: { xs: "96%", sm: "90%", md: "78%" },
+          maxWidth: 760,
+          background: isDark ? "rgba(31,25,52,0.82)" : "rgba(255,255,255,0.72)",
           borderRadius: 4,
           border: "1px solid rgba(255,255,255,0.8)",
           backdropFilter: "blur(16px)",
@@ -80,7 +82,7 @@ export default function FutureCyclePrediction({ refreshKey = 0 }) {
           </Alert>
         ) : forecast ? (
           <Box sx={{ mt: 2.5 }}>
-            <Typography sx={{ color: "#A21CAF", fontWeight: 700, mb: 1.5, textAlign: "center" }}>
+              <Typography sx={{ color: isDark ? "#F8F7FF" : "#312E81", fontWeight: 700, mb: 1.5, textAlign: "center" }}>
               Expected phases for {selectedMonthLabel}
             </Typography>
             <Box sx={{ display: "grid", gap: 1 }}>
