@@ -1,10 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AuthProvider, useAuth } from "./components/AuthProvider";
 import LoginButton from "./components/LoginButton";
 import PeriodForm from "./components/PeriodForm";
 import HistoryList from "./components/HistoryList";
 import CycleChart from "./components/CycleChart";
 import PredictionBox from "./components/PredictionBox";
+import FutureCyclePrediction from "./components/FutureCyclePrediction";
+import api from "./api/axios";
 import Container from "@mui/material/Container";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
@@ -116,6 +118,31 @@ const theme = createTheme({
 function MainContent() {
   const { user, logout } = useAuth();
   const [refreshKey, setRefreshKey] = useState(0);
+  const [hasCycleData, setHasCycleData] = useState(false);
+
+  useEffect(() => {
+    if (!user) {
+      setHasCycleData(false);
+      return;
+    }
+
+    let isCurrent = true;
+    api.get(`/cycles/recent`, { params: { page: 0, size: 1 } })
+      .then((res) => {
+        if (isCurrent) {
+          setHasCycleData(res.data.length > 0);
+        }
+      })
+      .catch(() => {
+        if (isCurrent) {
+          setHasCycleData(false);
+        }
+      });
+
+    return () => {
+      isCurrent = false;
+    };
+  }, [user, refreshKey]);
 
   if (!user) return <LoginButton />;
 
@@ -203,22 +230,28 @@ function MainContent() {
         {/* Form Section */}
         <PeriodForm onTracked={handleDataUpdated} />
 
-        {/* History and Chart Section - Side by Side */}
-        <Box sx={{ 
-          display: 'grid', 
-          gridTemplateColumns: { xs: '1fr', lg: '1fr 1fr' }, 
-          gap: { xs: 3, sm: 4 }, 
-          mt: { xs: 4, sm: 6 },
-          alignItems: 'start'
-        }}>
-          <HistoryList refreshKey={refreshKey} onDataUpdated={handleDataUpdated} />
-          <CycleChart refreshKey={refreshKey} />
-        </Box>
+        {hasCycleData && (
+          <>
+            {/* History and Chart Section - Side by Side */}
+            <Box sx={{ 
+              display: 'grid', 
+              gridTemplateColumns: { xs: '1fr', lg: '1fr 1fr' }, 
+              gap: { xs: 3, sm: 4 }, 
+              mt: { xs: 4, sm: 6 },
+              alignItems: 'start'
+            }}>
+              <HistoryList refreshKey={refreshKey} onDataUpdated={handleDataUpdated} />
+              <CycleChart refreshKey={refreshKey} />
+            </Box>
 
-        {/* Prediction Box */}
-        <Box sx={{ mt: { xs: 3, sm: 4 } }}>
-          <PredictionBox refreshKey={refreshKey} />
-        </Box>
+            {/* Prediction Box */}
+            <Box sx={{ mt: { xs: 3, sm: 4 } }}>
+              <PredictionBox refreshKey={refreshKey} />
+            </Box>
+
+            <FutureCyclePrediction refreshKey={refreshKey} />
+          </>
+        )}
       </Container>
 
       {/* Footer */}

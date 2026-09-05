@@ -7,10 +7,12 @@ React + Vite frontend for the period tracker. It provides Google sign-in, period
 - Track period start date and duration
 - Auto-refresh after successful track/delete actions
 - View recent cycle history in a table
-- Cycle chart with recent trend data
-- Next period prediction panel
+- Cycle chart with recent trend data, activated after 3 period records
+- Next expected period prediction panel
 - Estimated ovulation date prediction
 - Fertile window prediction range
+- Future month/year cycle phase forecast
+- Monthly menstruation, follicular, ovulation, and luteal phase ranges
 - Delete tracked entry with confirmation popup
 - Mobile-first responsive interface
 
@@ -31,6 +33,7 @@ React + Vite frontend for the period tracker. It provides Google sign-in, period
 - `src/components/HistoryList.jsx` — history table and delete dialog
 - `src/components/CycleChart.jsx` — chart widget
 - `src/components/PredictionBox.jsx` — prediction panel showing next period, ovulation, and fertile window
+- `src/components/FutureCyclePrediction.jsx` — month picker and future phase forecast
 - `src/api/axios.js` — API client with Firebase bearer token injection
 - `src/firebase.js` — Firebase browser config and auth initialization
 
@@ -75,6 +78,7 @@ The app calls these backend endpoints:
 - `POST /api/cycles/track`
 - `GET /api/cycles/recent`
 - `GET /api/cycles/predict`
+- `GET /api/cycles/predict/month?month=YYYY-MM`
 - `DELETE /api/cycles/{id}`
 
 ## Latest app behavior
@@ -85,8 +89,20 @@ The current frontend includes:
 - chart labels formatted as `DD/MM`
 - delete icon in each cycle row with confirmation modal
 - post-delete and post-track automatic refresh of history, chart, and prediction components
+- when there are no period records, only the Track Your Period section is shown
+- cycle history, chart, and prediction sections appear after the first tracked record
+- cycle chart and prediction features show an unlock message until at least 3 period dates are recorded
 - prediction panel showing next expected period, estimated ovulation date, and fertile window range
 - premium glass-style visual polish across cards, tables, and dashboard sections
+- future monthly forecast showing menstruation, follicular, ovulation, and luteal phases
+- forecast disclaimer: `Subject to normal physical and mental health.`
+
+## Prediction behavior
+- Current predictions use the average cycle length from recent recorded period dates.
+- The future monthly forecast uses the latest 4 cycle records and their average cycle length and period duration.
+- The month/year picker requests a forecast in `YYYY-MM` format and displays only phase ranges overlapping the selected month.
+- Predictions and the cycle chart require at least 3 recorded period dates.
+- The interface displays `Record at least the last 3 period dates to unlock predictions.` when prediction data is unavailable because the minimum has not been reached.
 
 ## Deployment guidance
 For free-tier deployment:

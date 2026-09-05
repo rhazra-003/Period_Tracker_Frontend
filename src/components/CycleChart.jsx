@@ -19,10 +19,19 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, T
 export default function CycleChart({ refreshKey = 0 }) {
   const [data, setData] = useState(null);
   const [error, setError] = useState("");
+  const [isLocked, setIsLocked] = useState(false);
 
   useEffect(() => {
+    setData(null);
+    setError("");
+    setIsLocked(false);
     api.get(`/cycles/recent`, { params: { page: 0, size: 10 } })
       .then(res => {
+        if (res.data.length < 3) {
+          setIsLocked(true);
+          return;
+        }
+
         const labels = res.data.map(r => dayjs(r.periodStart).format('DD/MM')).reverse();
         const values = res.data.map(r => r.cycleLength ?? null).reverse();
 
@@ -54,6 +63,43 @@ export default function CycleChart({ refreshKey = 0 }) {
       .catch(err => setError("Error loading chart"));
   }, [refreshKey]);
 
+  const chartHeading = (
+    <Typography 
+      variant="h6" 
+      align="center" 
+      sx={{ 
+        color: '#A21CAF',
+        fontWeight: 700,
+        mb: { xs: 2, sm: 3 },
+        fontSize: { xs: '1.1rem', sm: '1.25rem' },
+        letterSpacing: '-0.02em',
+      }}
+    >
+      Cycle Chart
+    </Typography>
+  );
+
+  if (isLocked) return (
+    <Box sx={{ mt: { xs: 3, sm: 5 } }}>
+      {chartHeading}
+      <Typography
+        sx={{
+          textAlign: 'center',
+          color: '#A21CAF',
+          backgroundColor: 'rgba(255,255,255,0.62)',
+          border: '1px solid rgba(255,255,255,0.8)',
+          backdropFilter: 'blur(12px)',
+          p: { xs: 1.5, sm: 2 },
+          borderRadius: 3,
+          fontSize: { xs: '0.8rem', sm: '0.875rem' },
+          fontWeight: 600,
+        }}
+      >
+        Record at least the last 3 period dates to unlock the cycle chart.
+      </Typography>
+    </Box>
+  );
+
   if (error) return (
     <Typography 
       color="error" 
@@ -72,19 +118,7 @@ export default function CycleChart({ refreshKey = 0 }) {
 
   return (
     <Box sx={{ mt: { xs: 3, sm: 5 } }}>
-      <Typography 
-        variant="h6" 
-        align="center" 
-        sx={{ 
-          color: '#A21CAF',
-          fontWeight: 700,
-          mb: { xs: 2, sm: 3 },
-          fontSize: { xs: '1.1rem', sm: '1.25rem' },
-          letterSpacing: '-0.02em',
-        }}
-      >
-        Cycle Chart
-      </Typography>
+      {chartHeading}
       <Box 
         sx={{ 
           background: 'rgba(255,255,255,0.72)',

@@ -13,6 +13,7 @@ export default function PredictionBox({ refreshKey = 0 }) {
   const [error, setError] = useState("");
 
   useEffect(() => {
+    setError("");
     api.get(`/cycles/predict`)
       .then(res => {
         setPrediction({
